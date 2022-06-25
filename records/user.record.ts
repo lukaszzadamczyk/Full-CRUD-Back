@@ -73,4 +73,34 @@ export class UserRecord implements UserEntity {
       id,
     });
   }
+
+  static async getOneUser(id: string): Promise<UserEntity[]> {
+    const [results] = (await pool.execute(
+      "SELECT * FROM `user_contact` WHERE id= :id",
+      { id }
+    )) as UserRecordResults;
+
+    return results.map((result) => {
+      const { id, name, email, contact } = result;
+
+      return {
+        id,
+        name,
+        email,
+        contact,
+      };
+    });
+  }
+
+  async update(): Promise<void> {
+    const [results] = await pool.execute(
+      "UPDATE `user_contact` SET `name`= :name, `email`= :email, `contact`= :contact WHERE `id`= :id",
+      {
+        name: this.name,
+        email: this.email,
+        contact: this.contact,
+        id: this.id,
+      }
+    );
+  }
 }
