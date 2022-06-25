@@ -64,4 +64,13 @@ export class UserRecord implements UserEntity {
       this
     );
   }
+
+  static async remove(id: string): Promise<void> {
+    if (!id) {
+      throw new ValidationError("User with this ID does not exist.");
+    }
+    await pool.execute("DELETE FROM `user_contact` WHERE `id` = :id", {
+      id,
+    });
+  }
 }

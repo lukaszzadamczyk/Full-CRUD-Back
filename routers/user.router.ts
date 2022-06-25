@@ -11,4 +11,8 @@ export const userRouter = Router()
     const user = new UserRecord(req.body);
     await user.insert();
     res.json(user);
+  })
+  .delete("/delete/:id", async (req, res) => {
+    const removeUser = await UserRecord.remove(req.params.id);
+    res.json(removeUser);
   });
