@@ -93,7 +93,7 @@ export class UserRecord implements UserEntity {
   }
 
   async update(): Promise<void> {
-    const [results] = await pool.execute(
+    await pool.execute(
       "UPDATE `user_contact` SET `name`= :name, `email`= :email, `contact`= :contact WHERE `id`= :id",
       {
         name: this.name,
