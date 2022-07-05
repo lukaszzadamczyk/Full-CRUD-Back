@@ -2,6 +2,7 @@ import express, { json } from "express";
 import "express-async-errors";
 import cors from "cors";
 import bodyParser from "body-parser";
+import rateLimit from "express-rate-limit";
 import { userRouter } from "./routers/user.router";
 import { handleError } from "./utils/errors";
 
@@ -12,8 +13,15 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
+const limiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 500,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 app.use(json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(limiter);
 
 app.use("/api", userRouter);
 
