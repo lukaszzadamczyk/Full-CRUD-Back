@@ -5,12 +5,13 @@ import bodyParser from "body-parser";
 import rateLimit from "express-rate-limit";
 import { userRouter } from "./routers/user.router";
 import { handleError } from "./utils/errors";
+import { config } from "./config/config";
 
 const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: config.corsOrigin,
   })
 );
 const limiter = rateLimit({
