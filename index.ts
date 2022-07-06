@@ -1,4 +1,4 @@
-import express, { json } from "express";
+import express, { json, Router } from "express";
 import "express-async-errors";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -23,7 +23,11 @@ app.use(json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(limiter);
 
-app.use("/api", userRouter);
+const router = Router();
+
+router.use("/api", userRouter);
+
+app.use("/api", router);
 
 app.use(handleError);
 
